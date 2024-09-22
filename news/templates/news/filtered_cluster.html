@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Filtered Cluster</title>
+    <link rel="icon" href="{% static 'news/img/favicon.svg' %}" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="{% static 'news/css/style.css' %}" />
+    <style>
+        .news-card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="relative h-screen overflow-y-auto overflow-x-hidden bg-light text-dark dark:bg-dark-2 dark:text-light">
+    <div class="mx-auto flex max-w-screen-2xl flex-col justify-between gap-4 p-4 lg:gap-6 lg:p-6">
+        <header class="sticky top-0 z-50">
+            <div class="flex items-center justify-between rounded-2xl bg-white p-3 shadow dark:bg-black dark:shadow-dark">
+                <a href="{% url 'cluster_view' %}" class="inline-flex items-center gap-3 px-3 text-2xl font-semibold text-dark dark:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6">
+                        <path fill="currentColor" d="M0 1.5A1.5 1.5 0 0 1 1.5 0H9a1.5 1.5 0 0 1 1.5 1.5v21A1.5 1.5 0 0 1 9 24H1.5A1.5 1.5 0 0 1 0 22.5v-21Zm13.5 0A1.5 1.5 0 0 1 15 0h7.5A1.5 1.5 0 0 1 24 1.5V9a1.5 1.5 0 0 1-1.5 1.5H15A1.5 1.5 0 0 1 13.5 9V1.5Zm0 13.5a1.5 1.5 0 0 1 1.5-1.5h7.5A1.5 1.5 0 0 1 24 15v7.5a1.5 1.5 0 0 1-1.5 1.5H15a1.5 1.5 0 0 1-1.5-1.5V15Z" />
+                    </svg>
+                    <span>Bloom. - Representasi Berita Indonesia </span>
+                </a>
+            </div>
+        </header>
+
+        <div id="mobile-menu" class="hs-overlay fixed bottom-0 start-0 top-0 z-[60] hidden h-full w-64 -translate-x-full transform overflow-y-auto bg-white transition-all duration-300 hs-overlay-open:translate-x-0 dark:bg-black [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:w-2">
+            <div class="flex h-full flex-col justify-between gap-5 p-5">
+                <div class="">
+                    <!-- Logo -->
+                    <a href="index.html" class="inline-flex items-center gap-3 px-3 text-2xl font-semibold text-dark dark:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6">
+                            <path fill="currentColor" d="M0 1.5A1.5 1.5 0 0 1 1.5 0H9a1.5 1.5 0 0 1 1.5 1.5v21A1.5 1.5 0 0 1 9 24H1.5A1.5 1.5 0 0 1 0 22.5v-21Zm13.5 0A1.5 1.5 0 0 1 15 0h7.5A1.5 1.5 0 0 1 24 1.5V9a1.5 1.5 0 0 1-1.5 1.5H15A1.5 1.5 0 0 1 13.5 9V1.5Zm0 13.5a1.5 1.5 0 0 1 1.5-1.5h7.5A1.5 1.5 0 0 1 24 15v7.5a1.5 1.5 0 0 1-1.5 1.5H15a1.5 1.5 0 0 1-1.5-1.5V15Z" />
+                        </svg>
+
+                        <span> Bloom. </span>
+                    </a>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <button data-hs-theme-click-value="dark" class="hs-dark-mode flex w-full items-center justify-start gap-2 rounded-lg px-4 py-2 text-center text-sm text-muted transition hover:bg-light hs-dark-mode-active:hidden dark:hover:bg-dark dark:hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="h-6 w-6">
+                            <path d="M11.8 3a8.656 8.656 0 0 0-4.523 1.28A8.918 8.918 0 0 0 4.04 7.756a9.167 9.167 0 0 0 .44 9.24 8.863 8.863 0 0 0 3.553 3.137 8.633 8.633 0 0 0 4.624.824 8.69 8.69 0 0 0 4.381-1.723 8.973 8.973 0 0 0 2.892-3.78c.3-.738-.419-1.48-1.142-1.179a5.604 5.604 0 0 1-3.892.15 5.74 5.74 0 0 1-3.083-2.431 5.956 5.956 0 0 1-.848-3.886c.17-1.357.8-2.61 1.78-3.541l.069-.072c.485-.567.099-1.488-.668-1.488h-.234l-.06-.005L11.8 3Z" />
+                        </svg>
+
+                        <span>Change appearance</span>
+                    </button>
+
+                    <button data-hs-theme-click-value="light" class="hs-dark-mode hidden w-full items-center justify-start gap-2 rounded-lg px-4 py-2 text-center text-sm text-muted transition hover:bg-light hs-dark-mode-active:flex dark:hover:bg-dark dark:hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="h-6 w-6">
+                            <path d="M10 15.833a.833.833 0 0 1 .828.736l.005.098v.833a.833.833 0 0 1-1.66.097l-.006-.097v-.833a.833.833 0 0 1 .833-.834Zm5.26-1.741.08.069.582.583a.833.833 0 0 1-1.1 1.248l-.078-.07-.583-.583a.833.833 0 0 1 1.015-1.306l.085.059Zm-9.42.068a.833.833 0 0 1 .068 1.1l-.069.08-.583.582a.833.833 0 0 1-1.248-1.1l.07-.078.583-.583a.833.833 0 0 1 1.178 0ZM3.333 9.167a.833.833 0 0 1 .098 1.66l-.098.006H2.5a.833.833 0 0 1-.098-1.66l.098-.006h.833Zm14.167 0a.833.833 0 0 1 .098 1.66l-.098.006h-.833a.833.833 0 0 1-.098-1.66l.098-.006h.833ZM5.178 4.008l.078.07.583.583a.833.833 0 0 1-1.1 1.247l-.078-.069-.583-.583A.833.833 0 0 1 5.092 3.95l.086.058Zm10.744.069a.833.833 0 0 1 .07 1.1l-.07.079-.583.583a.833.833 0 0 1-1.247-1.1l.069-.078.583-.584a.833.833 0 0 1 1.178 0ZM10 1.667a.833.833 0 0 1 .828.736l.005.097v.833a.833.833 0 0 1-1.66.098l-.006-.098V2.5A.833.833 0 0 1 10 1.667Zm0 4.166a4.167 4.167 0 1 1-4.163 4.348L5.833 10l.004-.18A4.167 4.167 0 0 1 10 5.832Z" />
+                        </svg>
+
+                        <span>Change appearance</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <main style="display: flex; flex-direction: column; max-width: 100vw; max-height: 100vh; gap: 20px;">
+            <h3 class="text-2xl font-semibold dark:text-light">Cluster {{ cluster_id }} on {{ date }}</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px" class="flex flex-row overflow-x-scroll no-scrollbar">
+                {% if articles %}
+                    {% for article in articles %}
+                        <div style="max-width: 24rem; min-width: 24rem;">
+                            <div class="group rounded-2xl bg-white p-6 shadow dark:bg-black dark:shadow-dark">
+                                <div class="aspect-6/4 overflow-hidden rounded-lg bg-light pt-4 text-center dark:bg-dark-2">
+                                    {% if article.image %}
+                                        <img src="{{ article.image }}" alt="Gambar Berita" style="max-width: 100%;">
+                                    {% else %}
+                                        <img src="{% static 'news/img/default-image.jpg' %}" alt="Gambar Berita" style="max-width: 100%;">
+                                    {% endif %}
+                                </div>
+                                <div class="mt-6">
+                                    <a href="{{ article.linkBerita }}" class="text-2xl font-semibold dark:text-gray-300 hover:dark:text-white">
+                                        {{ article.judulBerita }}
+                                    </a>
+                                    <p class="mt-2 text-muted dark:text-light/70">
+                                        <strong>Tanggal Publikasi:</strong> {{ article.pubDateBerita }}
+                                    </p>
+                                    <p class="mt-2 text-muted dark:text-light/70">
+                                        <strong>Kata Kunci:</strong> {{ article.keywords }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No articles found for this cluster.</p>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+    <div class="shapes">
+        <div class="fixed -left-1/2 -top-1/2 -z-10 animate-spin-very-slow xl:-left-[20%] xl:-top-1/3">
+            <img src="{% static 'news/img/gradient-1.png' %}" alt="" class="" />
+        </div>
+        <div class="fixed -right-[50%] top-[10%] -z-10 animate-spin-very-slow xl:-right-[15%] xl:top-[10%]">
+            <img src="{% static 'news/img/gradient-2.png' %}" alt="" class="" />
+        </div>
+        <div class="move-with-cursor fixed left-[10%] top-[20%] -z-10">
+            <img src="{% static 'news/img/object-3d-1.png' %}" alt="" class="" />
+        </div>
+        <div class="move-with-cursor fixed bottom-[20%] right-[10%] -z-10">
+            <img src="{% static 'news/img/object-3d-2.png' %}" alt="" class="" />
+        </div>
+    </div>
+    <script src="{% static 'news/js/preline.js' %}"></script>
+    <script src="{% static 'news/js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'news/js/venobox.min.js' %}"></script>
+    <script src="{% static 'news/js/clipboard.min.js' %}"></script>
+    <script src="{% static 'news/js/main.js' %}"></script>
+</body>
+</html>
